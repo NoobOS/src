@@ -1,7 +1,7 @@
 #include "../include/common/types.h"
 #include "../include/gdt.h"
 
-GlobalDescripterTable::GlobalDescripterTable()
+GlobalDescriptorTable::GlobalDescriptorTable()
 :nullSegmentSelector(0,0,0),
 unusedSegmentSelector(0,0,0),
 codeSegmentSelector(0,64*1024*1024, 0x9A),
@@ -9,24 +9,24 @@ dataSegmentSelector(0,64*1024*1024, 0x92){
     
     uint32_t i[2];
     i[0] = (uint32_t)this;
-    i[1] = sizeof(GlobalDescripterTable) << 16;
+    i[1] = sizeof(GlobalDescriptorTable) << 16;
     asm volatile ("lgdt (%0)": :"p" (((uint8_t *) i)+2));
 }
 
-GlobalDescripterTable::~GlobalDescripterTable(){
+GlobalDescriptorTable::~GlobalDescriptorTable(){
 }
 
-uint16_t GlobalDescripterTable::DataSegmentSelector(){
+uint16_t GlobalDescriptorTable::DataSegmentSelector(){
     
     return (uint8_t*)&dataSegmentSelector - (uint8_t*)this;
 }
 
-uint16_t GlobalDescripterTable::CodeSegmentSelector(){
+uint16_t GlobalDescriptorTable::CodeSegmentSelector(){
     
     return (uint8_t*)&codeSegmentSelector - (uint8_t*)this;
 }
 
-GlobalDescripterTable::SegmentDescripter::SegmentDescripter(uint32_t base, uint32_t limit, uint8_t flags){
+GlobalDescriptorTable::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t flags){
     
     uint8_t* target = (uint8_t*)this;
     
@@ -75,7 +75,7 @@ GlobalDescripterTable::SegmentDescripter::SegmentDescripter(uint32_t base, uint3
     
 }
 
-uint32_t GlobalDescripterTable::SegmentDescripter::Base(){
+uint32_t GlobalDescriptorTable::SegmentDescriptor::Base(){
     
     uint8_t* target = (uint8_t*)this;
 
@@ -87,7 +87,7 @@ uint32_t GlobalDescripterTable::SegmentDescripter::Base(){
     return result;
 }
 
-uint32_t GlobalDescripterTable::SegmentDescripter::Limit(){
+uint32_t GlobalDescriptorTable::SegmentDescriptor::Limit(){
     
     uint8_t* target = (uint8_t*)this;
 
