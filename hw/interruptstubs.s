@@ -54,7 +54,7 @@ int_bottom:
     pop %ds
     popa
 
-_ZN16InterruptManager22IgnoreInterruptRequestEv:  
+_ZN16InterruptManager22IgnoreInterruptRequestEv:
 
     iret
     
